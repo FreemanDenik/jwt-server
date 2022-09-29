@@ -1,6 +1,6 @@
 package com.denik.jwt.server.models;
 
-import com.denik.jwt.server.entities.User;
+import com.denik.jwt.server.entities.AuthUser;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -8,41 +8,41 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserTests {
+public class AuthUserTests {
     @Test
     public void UserTestEquals() {
-        User user = User.builder()
+        AuthUser authUser = AuthUser.builder()
                 .login("login")
                 .build();
-        User user1 = User.builder()
+        AuthUser authUser1 = AuthUser.builder()
                 .login("login")
                 .build();
-        User user2 = User.builder()
+        AuthUser authUser2 = AuthUser.builder()
                 .login("login1")
                 .build();
-        Assert.assertTrue(user.equals(user1));
-        Assert.assertTrue(user1.equals(user));
-        Assert.assertFalse(user.equals(user2));
-        Assert.assertFalse(user2.equals(user));
+        Assert.assertTrue(authUser.equals(authUser1));
+        Assert.assertTrue(authUser1.equals(authUser));
+        Assert.assertFalse(authUser.equals(authUser2));
+        Assert.assertFalse(authUser2.equals(authUser));
     }
 
     @Test
     public void UserTestSet() {
-        Set<User> userSets = new HashSet<>();
+        Set<AuthUser> authUserSets = new HashSet<>();
 
-        userSets.addAll(
+        authUserSets.addAll(
                 Arrays.asList(
-                        User.builder()
+                        AuthUser.builder()
                                 .login("login")
                                 .build(),
-                        User.builder()
+                        AuthUser.builder()
                                 .login("login2")
                                 .build(),
-                        User.builder()
+                        AuthUser.builder()
                                 .login("login3")
                                 .build()
                 )
         );
-        Assert.assertTrue(userSets.stream().anyMatch(u -> u.getLogin().equals("login2")));
+        Assert.assertTrue(authUserSets.stream().anyMatch(u -> u.getLogin().equals("login2")));
     }
 }

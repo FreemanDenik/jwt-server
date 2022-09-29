@@ -1,6 +1,6 @@
 package com.denik.jwt.server.services;
 
-import com.denik.jwt.server.entities.User;
+import com.denik.jwt.server.entities.AuthUser;
 import com.denik.jwt.server.repositories.UserRepository;
 import com.sun.istack.NotNull;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    public Optional<User> getByLogin(@NotNull String login) {
+    public Optional<AuthUser> getByLogin(@NotNull String login) {
         return userRepository.findByLogin(login);
     }
 }

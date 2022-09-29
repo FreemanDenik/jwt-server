@@ -2,8 +2,8 @@ package com.denik.jwt.server.services;
 import com.denik.jwt.server.dto.JwtAuthentication;
 import com.denik.jwt.server.dto.JwtRequest;
 import com.denik.jwt.server.dto.JwtResponse;
+import com.denik.jwt.server.entities.AuthUser;
 import com.denik.jwt.server.exeptions.AuthException;
-import com.denik.jwt.server.entities.User;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +22,13 @@ public class AuthServiceImpl implements AuthService{
     private final JwtProvider jwtProvider;
 
     public JwtResponse login(@NonNull JwtRequest authRequest) {
-        final User user = userService.getByLogin(authRequest.getLogin())
+        final AuthUser authUser = userService.getByLogin(authRequest.getLogin())
                 .orElseThrow(() -> new AuthException("Пользователь не найден"));
         //if (user.getPassword().equals(authRequest.getPassword())) {
-        if (passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
-            final String accessToken = jwtProvider.generateAccessToken(user);
-            final String refreshToken = jwtProvider.generateRefreshToken(user);
-            refreshStorage.put(user.getLogin(), refreshToken);
+        if (passwordEncoder.matches(authRequest.getPassword(), authUser.getPassword())) {
+            final String accessToken = jwtProvider.generateAccessToken(authUser);
+            final String refreshToken = jwtProvider.generateRefreshToken(authUser);
+            refreshStorage.put(authUser.getLogin(), refreshToken);
             return new JwtResponse(accessToken, refreshToken);
         } else {
             throw new AuthException("Неправильный пароль");
@@ -41,9 +41,9 @@ public class AuthServiceImpl implements AuthService{
             final String login = claims.getSubject();
             final String saveRefreshToken = refreshStorage.get(login);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-                final User user = userService.getByLogin(login)
+                final AuthUser authUser = userService.getByLogin(login)
                         .orElseThrow(() -> new AuthException("Пользователь не найден"));
-                final String accessToken = jwtProvider.generateAccessToken(user);
+                final String accessToken = jwtProvider.generateAccessToken(authUser);
                 return new JwtResponse(accessToken, null);
             }
         }
@@ -56,11 +56,11 @@ public class AuthServiceImpl implements AuthService{
             final String login = claims.getSubject();
             final String saveRefreshToken = refreshStorage.get(login);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-                final User user = userService.getByLogin(login)
+                final AuthUser authUser = userService.getByLogin(login)
                         .orElseThrow(() -> new AuthException("Пользователь не найден"));
-                final String accessToken = jwtProvider.generateAccessToken(user);
-                final String newRefreshToken = jwtProvider.generateRefreshToken(user);
-                refreshStorage.put(user.getLogin(), newRefreshToken);
+                final String accessToken = jwtProvider.generateAccessToken(authUser);
+                final String newRefreshToken = jwtProvider.generateRefreshToken(authUser);
+                refreshStorage.put(authUser.getLogin(), newRefreshToken);
                 return new JwtResponse(accessToken, newRefreshToken);
             }
         }

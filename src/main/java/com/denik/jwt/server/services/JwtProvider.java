@@ -1,12 +1,12 @@
 package com.denik.jwt.server.services;
 
-import com.denik.jwt.server.entities.User;
+import com.denik.jwt.server.entities.AuthUser;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
 
 public interface JwtProvider {
-    String generateAccessToken(@NonNull User user);
-    String generateRefreshToken(@NonNull User user);
+    String generateAccessToken(@NonNull AuthUser authUser);
+    String generateRefreshToken(@NonNull AuthUser authUser);
     boolean validateAccessToken(@NonNull String accessToken);
     boolean validateRefreshToken(@NonNull String refreshToken);
     Claims getAccessClaims(@NonNull String token);

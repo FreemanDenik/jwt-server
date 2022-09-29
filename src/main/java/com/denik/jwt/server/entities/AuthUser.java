@@ -8,13 +8,13 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "USERS")
 @Getter
 @Setter
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+@Table(name = "AUTH_USERS")
+public class AuthUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

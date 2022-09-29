@@ -1,7 +1,7 @@
 package com.denik.jwt.server.initializations;
 
+import com.denik.jwt.server.entities.AuthUser;
 import com.denik.jwt.server.entities.Role;
-import com.denik.jwt.server.entities.User;
 import com.denik.jwt.server.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,13 +24,13 @@ public class CreateDefaultUsers {
 
     @Bean("CreateDefaultUsers")
     public void createDefaultUsers(){
-        User user =  User.builder()
+       /* AuthUser authUser =  AuthUser.builder()
                 .login("my_login")
                 .email("user@mail.ru")
                 .roles(Set.of(Role.USER, Role.ADMIN))
                 .password(passwordEncoder.encode("123"))
                 .build();
-        userRepository.save(user);
+        userRepository.save(authUser);*/
 
     }
 }
